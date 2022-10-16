@@ -68,6 +68,10 @@ libc = { version = "0.2.154", default-features = false }
 [target.'cfg(target_os = "vxworks")'.dependencies]
 libc = { version = "0.2.154", default-features = false }
 
+# wasix
+[target.'cfg(all(target_arch = "wasm32", target_os = "wasi", target_vendor = "wasmer"))'.dependencies]
+wasix = { git = "https://github.com/wasix-org/wasix-abi-rust.git" }
+
 # wasi (0.2 only)
 [target.'cfg(all(target_arch = "wasm32", target_os = "wasi", target_env = "p2"))'.dependencies]
 wasi = { version = "0.14", default-features = false }
