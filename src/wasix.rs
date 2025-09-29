@@ -8,11 +8,11 @@
 
 //! Implementation for WASI
 use crate::Error;
-use core::num::NonZeroU32;
+use core::{mem::MaybeUninit, num::NonZeroU32};
 use wasix::random_get;
 
-pub fn getrandom_inner(dest: &mut [u8]) -> Result<(), Error> {
-    match unsafe { random_get(dest.as_mut_ptr(), dest.len()) } {
+pub fn getrandom_inner(dest: &mut [MaybeUninit<u8>]) -> Result<(), Error> {
+    match unsafe { random_get(dest.as_mut_ptr() as *mut _, dest.len()) } {
         Ok(()) => Ok(()),
         Err(num) => Err(unsafe { NonZeroU32::new_unchecked(num.raw() as u32) }.into()),
     }
